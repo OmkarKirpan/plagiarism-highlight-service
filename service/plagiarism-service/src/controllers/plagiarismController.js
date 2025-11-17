@@ -4,6 +4,7 @@ const config = require("../config");
 const scanStore = require("../storage/scanStore");
 const { plagiarismScanner } = require("../services/copyleaksService");
 const { generateHighlightPayload } = require("../services/highlightService");
+const { NotFoundError, ConflictError } = require("../errors/custom-errors");
 
 const buildScanOptions = (options = {}) => ({
   sandbox: config.copyleaks.sandboxMode,
@@ -13,11 +14,8 @@ const buildScanOptions = (options = {}) => ({
 });
 
 exports.submitScan = asyncHandler(async (request, reply) => {
-  const { text, options } = request.body || {};
-
-  if (!text || typeof text !== "string" || text.trim().length === 0) {
-    return reply.code(400).send({ error: "Text is required and must be a non-empty string." });
-  }
+  // Zod validation handled automatically by Fastify
+  const { text, options } = request.body;
 
   const record = scanStore.createScanRecord(text, options);
   logger.info(`Submitting scan ${record.scanId}`);
@@ -59,7 +57,7 @@ exports.getScan = asyncHandler(async (request, reply) => {
   const record = scanStore.getScan(scanId);
 
   if (!record) {
-    return reply.code(404).send({ error: "Scan not found" });
+    throw new NotFoundError("Scan not found");
   }
 
   reply.send({
@@ -81,16 +79,12 @@ exports.getHighlights = asyncHandler(async (request, reply) => {
   const record = scanStore.getScan(scanId);
 
   if (!record) {
-    return reply.code(404).send({ error: "Scan not found" });
+    throw new NotFoundError("Scan not found");
   }
 
   const exportedCount = Object.keys(record.exported.results).length;
   if (!exportedCount) {
-    return reply.code(409).send({
-      error: "Highlight data not ready yet",
-      status: record.status,
-      exportStarted: record.exportStarted,
-    });
+    throw new ConflictError("Highlight data not ready yet");
   }
 
   try {
@@ -101,7 +95,7 @@ exports.getHighlights = asyncHandler(async (request, reply) => {
       scanId,
       error: error.message,
     });
-    reply.code(500).send({ error: error.message });
+    throw error;
   }
 });
 
@@ -110,7 +104,7 @@ exports.deleteScan = asyncHandler(async (request, reply) => {
   const record = scanStore.getScan(scanId);
 
   if (!record) {
-    return reply.code(404).send({ error: "Scan not found" });
+    throw new NotFoundError("Scan not found");
   }
 
   try {

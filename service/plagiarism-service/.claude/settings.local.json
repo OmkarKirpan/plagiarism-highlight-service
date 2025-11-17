@@ -12,7 +12,15 @@
       "Bash(npm info:*)",
       "Bash(node --version:*)",
       "Bash(python3:*)",
-      "Bash(timeout 5 npm run dev)"
+      "Bash(timeout 5 npm run dev)",
+      "Bash(npm test:*)",
+      "Bash(ngrok version:*)",
+      "Bash(npm run dev:*)",
+      "Bash(ngrok http:*)",
+      "Bash(curl:*)",
+      "Read(//tmp/**)",
+      "Bash(cat:*)",
+      "Read(//Users/omkarkirpan/hurix/dictera/copyleaks/**)"
     ],
     "deny": [],
     "ask": []

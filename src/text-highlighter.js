@@ -107,6 +107,21 @@ class TextHighlighter {
     // Generate line-by-line report
     const lineReport = this.generateLineReport(text, resolvedHighlights);
 
+    // Count unique plagiarism and grammar highlights from nested structure
+    const uniqueGrammarIds = new Set();
+    const uniquePlagiarismIds = new Set();
+
+    resolvedHighlights.forEach(segment => {
+      segment.highlights.forEach(h => {
+        const id = `${h.type}_${h.start}_${h.length}`;
+        if (h.type === 'grammar') {
+          uniqueGrammarIds.add(id);
+        } else if (h.type === 'plagiarism') {
+          uniquePlagiarismIds.add(id);
+        }
+      });
+    });
+
     return {
       originalText: text,
       textLength: text.length,
@@ -115,8 +130,8 @@ class TextHighlighter {
       lineReport: lineReport,
       statistics: {
         totalHighlights: resolvedHighlights.length,
-        grammarErrors: resolvedHighlights.filter(h => h.type === 'grammar').length,
-        plagiarismMatches: resolvedHighlights.filter(h => h.type === 'plagiarism').length
+        grammarErrors: uniqueGrammarIds.size,
+        plagiarismMatches: uniquePlagiarismIds.size
       }
     };
   }
