@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "copyleaks-integration-001",
+		"name": "Copyleaks Integration API",
+		"description": "Complete API collection for the Copyleaks Grammar & Plagiarism Checker Integration Service.\n\nThis service provides a unified REST API for checking text for grammar errors and plagiarism using the Copyleaks API.\n\n**Features:**\n- Combined grammar and plagiarism checking\n- Text highlighting with overlap resolution\n- Webhook-based asynchronous processing\n- Sandbox mode for testing\n\n**Base URL:** http://localhost:3000\n\n**Setup:**\n1. Import this collection\n2. Import the environment file\n3. Ensure the server is running: `npm start`\n4. Configure your ngrok URL in the environment variables",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health & Account",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Check if the server is running and authenticated with Copyleaks.\n\nReturns:\n- status: Server status\n- service: Service name\n- authenticated: Whether authenticated with Copyleaks API"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Account Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/account",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"account"
+							]
+						},
+						"description": "Get Copyleaks account information including credits and subscription details."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stylesheet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/stylesheet",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"stylesheet"
+							]
+						},
+						"description": "Get the CSS stylesheet for rendering highlighted text in HTML.\n\nReturns CSS with classes for:\n- Grammar errors (spelling, grammar, punctuation, style)\n- Plagiarism matches (identical, minorChanges, relatedMeaning)"
+					},
+					"response": []
+				}
+			],
+			"description": "Basic server health checks and account information endpoints."
+		},
+		{
+			"name": "Text Checking",
+			"item": [
+				{
+					"name": "Combined Check (Grammar + Plagiarism)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Plagiarism is the representation of another person's language, thoughts, ideas, or expressions as one's own original work. This is a test sentence with some grammer errors.\",\n  \"checkId\": \"test-check-{{$timestamp}}\",\n  \"options\": {\n    \"sensitivityLevel\": 3,\n    \"language\": \"en\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"check"
+							]
+						},
+						"description": "Submit text for combined grammar and plagiarism checking.\n\n**Request Body:**\n- `text` (required): Text to check\n- `checkId` (optional): Unique identifier for this check\n- `options` (optional):\n  - `sensitivityLevel` (1-5, default: 3): Plagiarism detection sensitivity\n  - `language` (default: 'en'): Language code\n\n**Response:**\n- `checkId`: Unique check identifier\n- `scanId`: Plagiarism scan identifier\n- `grammar`: Immediate grammar check results\n- `plagiarism`: Plagiarism scan status (pending)\n\n**Note:** Grammar results are returned immediately. Plagiarism results are asynchronous - poll `/api/results/:checkId` for completion."
+					},
+					"response": []
+				},
+				{
+					"name": "Grammar Check Only",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"This is a sentance with some grammer errors and bad spellings.\",\n  \"checkId\": \"grammar-{{$timestamp}}\",\n  \"options\": {\n    \"language\": \"en\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/check/grammar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"check",
+								"grammar"
+							]
+						},
+						"description": "Check text for grammar, spelling, punctuation, and style errors only.\n\n**Request Body:**\n- `text` (required): Text to check\n- `checkId` (optional): Unique identifier\n- `options` (optional):\n  - `language` (default: 'en'): Language code\n\n**Response:**\n- `success`: true/false\n- `checkId`: Check identifier\n- `result`: Grammar check results with categorized errors"
+					},
+					"response": []
+				},
+				{
+					"name": "Plagiarism Check Only",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Plagiarism is the representation of another person's language, thoughts, ideas, or expressions as one's own original work. Although precise definitions vary depending on the institution, such representations are generally considered to violate journalistic ethics.\",\n  \"scanId\": \"scan-{{$timestamp}}\",\n  \"options\": {\n    \"sensitivityLevel\": 3\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/check/plagiarism",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"check",
+								"plagiarism"
+							]
+						},
+						"description": "Submit text for plagiarism detection only.\n\n**Request Body:**\n- `text` (required): Text to scan\n- `scanId` (optional): Unique scan identifier\n- `options` (optional):\n  - `sensitivityLevel` (1-5, default: 3): Detection sensitivity\n\n**Response:**\n- `success`: true/false\n- `scanId`: Scan identifier\n- `result`: Submission status (pending)\n\n**Note:** This is asynchronous. Results arrive via webhooks. Poll `/api/results/:checkId` for completion."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for submitting text for grammar and plagiarism checking."
+		},
+		{
+			"name": "Results",
+			"item": [
+				{
+					"name": "Get Check Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/results/:checkId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"results",
+								":checkId"
+							],
+							"variable": [
+								{
+									"key": "checkId",
+									"value": "test-check-1234567890",
+									"description": "The check ID returned from POST /api/check"
+								}
+							]
+						},
+						"description": "Get the current status and results of a check.\n\n**Path Parameters:**\n- `checkId`: The check ID from the submission\n\n**Response:**\n- `checkId`: Check identifier\n- `scanId`: Scan identifier\n- `grammar`: Grammar check results or status\n- `plagiarism`: Plagiarism scan results or status\n\n**Plagiarism Status Values:**\n- `pending`: Scan in progress\n- `completed`: Scan finished, results available\n- `error`: Scan failed\n- `not_found`: No scan found\n\n**Workflow:**\n1. Submit check\n2. Poll this endpoint every 5-10 seconds\n3. When `plagiarism.status === 'completed'`, proceed to export or get highlighted text"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Highlighted Text",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/results/:checkId/highlighted",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"results",
+								":checkId",
+								"highlighted"
+							],
+							"variable": [
+								{
+									"key": "checkId",
+									"value": "test-check-1234567890",
+									"description": "The check ID"
+								}
+							]
+						},
+						"description": "Get text with combined grammar and plagiarism highlights.\n\n**Path Parameters:**\n- `checkId`: The check ID\n\n**Response:**\n- `success`: true/false\n- `html`: HTML with highlighted text and CSS classes\n- `lineByLine`: Array of lines with highlights\n- `statistics`: Summary of issues found\n  - `grammarIssues`: Count of grammar errors\n  - `plagiarismMatches`: Count of plagiarism matches\n\n**Note:** Requires export to be completed for plagiarism highlights. Call `/api/results/:scanId/export` first if plagiarism results exist.\n\n**CSS Classes:**\n- Grammar: `.grammar-error-{type}` (spelling, grammar, punctuation, style)\n- Plagiarism: `.plagiarism-{matchType}` (identical, minorChanges, relatedMeaning)"
+					},
+					"response": []
+				},
+				{
+					"name": "Export Plagiarism Results",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/api/results/:scanId/export",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"results",
+								":scanId",
+								"export"
+							],
+							"variable": [
+								{
+									"key": "scanId",
+									"value": "scan-1234567890",
+									"description": "The scan ID (starts with 'scan-')"
+								}
+							]
+						},
+						"description": "Request detailed export of plagiarism results.\n\n**Path Parameters:**\n- `scanId`: The scan ID (must start with 'scan-')\n\n**Requirements:**\n- Scan must be completed (check `/api/results/:checkId` first)\n- Results must exist (plagiarism found)\n\n**Response:**\n- `success`: true/false\n- `exportId`: Export identifier\n- `message`: Export status\n\n**Workflow:**\n1. Wait for scan completion\n2. Call this endpoint to request export\n3. Wait for export webhooks to arrive\n4. Call `/api/results/:checkId/highlighted` to get highlighted text\n\n**Note:** Export results arrive via webhooks. This includes detailed character positions for highlighting."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Check",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/results/:checkId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"results",
+								":checkId"
+							],
+							"variable": [
+								{
+									"key": "checkId",
+									"value": "test-check-1234567890"
+								}
+							]
+						},
+						"description": "Delete a check and all associated data from memory.\n\n**Path Parameters:**\n- `checkId`: The check ID to delete\n\n**Response:**\n- `success`: true/false\n- `message`: Confirmation message\n\n**Note:** This only deletes data from the in-memory storage. To delete from Copyleaks servers, use their API directly."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for retrieving and managing check results."
+		},
+		{
+			"name": "Webhooks (Internal)",
+			"item": [
+				{
+					"name": "Status Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"scannedDocument\": {\n    \"totalWords\": 150,\n    \"totalExcluded\": 5,\n    \"credits\": 1\n  },\n  \"results\": {\n    \"score\": {\n      \"identicalWords\": 10,\n      \"minorChangedWords\": 5,\n      \"relatedMeaningWords\": 3,\n      \"aggregatedScore\": 12.5\n    },\n    \"internet\": [\n      {\n        \"id\": \"abc123\",\n        \"url\": \"http://example.com\",\n        \"title\": \"Example Source\",\n        \"matchedWords\": 10,\n        \"identicalWords\": 8,\n        \"similarWords\": 2,\n        \"matchPercentage\": 15.5\n      }\n    ]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/webhook/:status/:scanId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"webhook",
+								":status",
+								":scanId"
+							],
+							"variable": [
+								{
+									"key": "status",
+									"value": "completed",
+									"description": "Status: completed, error, or creditsChecked"
+								},
+								{
+									"key": "scanId",
+									"value": "scan-1234567890"
+								}
+							]
+						},
+						"description": "**⚠️ Internal Endpoint - Called by Copyleaks**\n\nReceives scan status updates from Copyleaks.\n\n**Status Types:**\n- `completed`: Scan finished successfully\n- `error`: Scan failed\n- `creditsChecked`: Credits verification\n\n**Note:** This endpoint is configured in the scan submission and called by Copyleaks servers. You don't need to call it manually."
+					},
+					"response": []
+				},
+				{
+					"name": "Result Export Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": {\n    \"comparison\": {\n      \"identical\": {\n        \"source\": {\n          \"chars\": {\n            \"starts\": [10, 50, 120],\n            \"lengths\": [15, 8, 25]\n          }\n        },\n        \"suspected\": {\n          \"chars\": {\n            \"starts\": [5, 30, 80],\n            \"lengths\": [15, 8, 25]\n          }\n        }\n      },\n      \"minorChanges\": {\n        \"source\": {\n          \"chars\": {\n            \"starts\": [200],\n            \"lengths\": [12]\n          }\n        }\n      },\n      \"relatedMeaning\": {\n        \"source\": {\n          \"chars\": {\n            \"starts\": [],\n            \"lengths\": []\n          }\n        }\n      }\n    }\n  },\n  \"statistics\": {\n    \"identical\": 15,\n    \"minorChanges\": 5,\n    \"relatedMeaning\": 0\n  },\n  \"url\": \"http://example.com/source\",\n  \"title\": \"Source Document\",\n  \"matchPercentage\": 15.5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/webhook/result/:scanId/:resultId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"webhook",
+								"result",
+								":scanId",
+								":resultId"
+							],
+							"variable": [
+								{
+									"key": "scanId",
+									"value": "scan-1234567890"
+								},
+								{
+									"key": "resultId",
+									"value": "abc123"
+								}
+							]
+						},
+						"description": "**⚠️ Internal Endpoint - Called by Copyleaks**\n\nReceives detailed result data with character-level comparison.\n\nContains:\n- Character positions for identical, minor changes, and related meaning matches\n- Statistics for each match type\n- Source URL and title\n\n**Note:** This is triggered by the export request and provides the data needed for text highlighting."
+					},
+					"response": []
+				},
+				{
+					"name": "Crawled Version Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": {\n    \"value\": \"The scanned text content...\",\n    \"pages\": {\n      \"startPosition\": [0],\n      \"endPosition\": [500]\n    }\n  },\n  \"html\": {\n    \"value\": \"<html>...</html>\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/webhook/crawled/:scanId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"webhook",
+								"crawled",
+								":scanId"
+							],
+							"variable": [
+								{
+									"key": "scanId",
+									"value": "scan-1234567890"
+								}
+							]
+						},
+						"description": "**⚠️ Internal Endpoint - Called by Copyleaks**\n\nReceives the processed/crawled version of the scanned document.\n\nContains:\n- Original text value\n- Page positions\n- HTML version (if requested)\n\n**Note:** This provides the base text for highlighting."
+					},
+					"response": []
+				},
+				{
+					"name": "PDF Report Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"url\": \"https://api.copyleaks.com/downloads/report.pdf\",\n  \"expiration\": \"2024-12-31T23:59:59Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/webhook/pdf/:scanId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"webhook",
+								"pdf",
+								":scanId"
+							],
+							"variable": [
+								{
+									"key": "scanId",
+									"value": "scan-1234567890"
+								}
+							]
+						},
+						"description": "**⚠️ Internal Endpoint - Called by Copyleaks**\n\nReceives the PDF report URL.\n\n**Note:** PDF generation must be enabled in scan properties."
+					},
+					"response": []
+				},
+				{
+					"name": "Export Completed Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"completed\": true,\n  \"tasks\": [\n    {\n      \"type\": \"result\",\n      \"isHealthy\": true,\n      \"endpoint\": \"https://yourserver.com/webhook/result/scan-123/abc\"\n    },\n    {\n      \"type\": \"crawled\",\n      \"isHealthy\": true,\n      \"endpoint\": \"https://yourserver.com/webhook/crawled/scan-123\"\n    },\n    {\n      \"type\": \"pdf\",\n      \"isHealthy\": true,\n      \"endpoint\": \"https://yourserver.com/webhook/pdf/scan-123\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/webhook/export-completed/:scanId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"webhook",
+								"export-completed",
+								":scanId"
+							],
+							"variable": [
+								{
+									"key": "scanId",
+									"value": "scan-1234567890"
+								}
+							]
+						},
+						"description": "**⚠️ Internal Endpoint - Called by Copyleaks**\n\nSignals that all export tasks have been completed.\n\nContains:\n- Completion status\n- List of tasks with health status\n\n**Note:** After receiving this, all data should be available for highlighting."
+					},
+					"response": []
+				}
+			],
+			"description": "Internal webhook endpoints called by Copyleaks. These are configured during scan submission and should not be called manually during normal usage."
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "default"
+		}
+	]
+}

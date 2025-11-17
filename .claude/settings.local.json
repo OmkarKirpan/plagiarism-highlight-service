@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm start)",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Skill(superpowers:using-superpowers)",
+      "Bash(chmod:*)",
+      "Bash(node test-plagiarism.js:*)",
+      "Bash(node /Users/omkarkirpan/hurix/dictera/copyleaks/test-comprehensive.js:*)",
+      "Bash(node:*)",
+      "Bash(tee:*)",
+      "Bash(ngrok http:*)",
+      "Bash(pkill:*)",
+      "mcp__Ref__ref_search_documentation",
+      "Bash(lsof:*)",
+      "Bash(cat:*)",
+      "Bash(xargs kill -9)",
+      "Bash(NODE_ENV=development node:*)",
+      "Read(//tmp/**)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(head:*)",
+      "Bash(done)",
+      "Bash([ -f .gitignore ])",
+      "Bash(npm uninstall:*)",
+      "Bash(kill:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

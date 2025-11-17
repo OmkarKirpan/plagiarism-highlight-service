@@ -1,0 +1,747 @@
+{
+	"info": {
+		"_postman_id": "e2c2987f-c1b5-462f-8590-71d28b7f4b32",
+		"name": "Copyleaks API Shared Collection",
+		"description": "This Postman collection provides a set of pre-configured requests for testing and interacting with the Copyleaks API. It includes endpoints for authentication, as well as both synchronous and asynchronous scan workflows.\n\n📄 Documentation: [https://docs.copyleaks.com/](https://docs.copyleaks.com/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "924071",
+		"_collection_link": "https://www.postman.com/copyleaks-api/workspace/copyleaks-api/collection/25022653-e2c2987f-c1b5-462f-8590-71d28b7f4b32?action=share&source=collection_link&creator=924071"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\", \r\n    \"key\": \"{{key}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{id_base_url}}/v3/account/login/api",
+							"host": [
+								"{{id_base_url}}"
+							],
+							"path": [
+								"v3",
+								"account",
+								"login",
+								"api"
+							]
+						},
+						"description": "Get your personal access token by logging in to the Copyleaks API using your email and API key."
+					},
+					"response": []
+				}
+			],
+			"description": "Copyleaks APIs allow you to integrate your systems and services with Copyleaks plagiarism detection products. You can start working with a Copyleaks API by sending HTTP requests to the Copyleaks servers. To do so, first [register to Copyleaks](https://api.copyleaks.com/signup) and get your API key. Then, use your API key and email address to login."
+		},
+		{
+			"name": "Authenticity",
+			"item": [
+				{
+					"name": "Submit Url",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\": \"https://pdfobject.com/pdf/sampl12e.pdf\",\n    \"properties\": {\n        \"action\": 0,\n        \"includeHtml\": false,\n        \"developerPayload\": null,\n        \"sandbox\": false,\n        \"expiration\": 2880,\n        \"scanMethodAlgorithm\": 0,\n        \"customMetadata\": [],\n        \"author\": {\n            \"id\": null\n        },\n        \"course\": {\n            \"id\": null\n        },\n        \"assignment\": {\n            \"id\": null\n        },\n        \"institution\": {\n            \"id\": null\n        },\n        \"webhooks\": {\n            \"newResult\": null,\n            \"newResultHeaders\": null,\n            \"statusHeaders\": null,\n            \"status\": \"https://yoursite.com/webhook/{STATUS}\"\n        },\n        \"filters\": {\n            \"identicalEnabled\": true,\n            \"minorChangesEnabled\": true,\n            \"relatedMeaningEnabled\": true,\n            \"minCopiedWords\": null,\n            \"safeSearch\": false,\n            \"domains\": [],\n            \"domainsMode\": \"1\",\n            \"allowSameDomain\": false\n        },\n        \"scanning\": {\n            \"internet\": true,\n            \"exclude\": {\n                \"idPattern\": null\n            },\n            \"include\": {\n                \"includeIdPattern\": null\n            },\n            \"repositories\": [],\n            \"copyleaksDb\": null,\n            \"crossLanguages\": {\n                \"languages\": [\n                ]\n            }\n        },\n        \"indexing\": {\n            \"repositories\": [],\n            \"copyleaksDb\": false\n        },\n        \"exclude\": {\n            \"quotes\": false,\n            \"citations\": false,\n            \"references\": false,\n            \"tableOfContents\": false,\n            \"titles\": false,\n            \"htmlTemplate\": false,\n            \"documentTemplateIds\": [],\n            \"code\": {\n                \"comments\": false\n            }\n        },\n        \"pdf\": {\n            \"create\": true,\n            \"title\": null,\n            // \"colors\": {\n            //     \"titles\": \"#0B163E\",\n            //     \"identical\": \"#FE5758\",\n            //     \"minorChanges\": \"#FFB1B1\",\n            //     \"relatedMeaning\": \"#FDD0A3\",\n            //     \"aiDetection\": \"#F8EAFF\",\n            //     \"writingFeedback\": \"#FFCB8E\"\n            // },\n            \"largeLogo\": null,\n            \"rtl\": false,\n            // \"version\": 3,\n            \"reportVersion\": \"latest\"\n        },\n        \"displayLanguage\":\"en\",\n        // \"scanTimeZone\": \"America/New_York\",\n        \"sensitivityLevel\": 3,\n        \"cheatDetection\": false,\n        \"aiGeneratedText\": {\n            \"detect\": false,\n            \"sensitivity\": 2,\n             \"explain\": {\n                \"enable\": false\n            }\n        },\n        \"sensitiveDataProtection\": {\n            \"credentials\": false,\n            \"url\": false,\n            \"creditCard\": false,\n            \"emailAddress\": false,\n            \"driversLicense\": false,\n            \"phoneNumber\": false,\n            \"network\": false,\n            \"passport\": false\n        },\n        \"writingFeedback\": {\n            \"enable\": false,\n            \"score\": {\n                \"wordChoiceScoreWeight\": 1,\n                \"sentenceStructureScoreWeight\": 1,\n                \"grammarScoreWeight\": 1,\n                \"mechanicsScoreWeight\": 1\n            }\n        },\n        \"overview\":{\n            \"enable\":false,\n            \"ignoreAIDetection\": false,\n            \"ignorePlagiarismDetection\": false,\n            \"ignoreAuthorData\": false,\n            \"ignoreWritingFeedback\": false\n        },\n        \"aiSourceMatch\": {\n            \"enable\": false\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v3/{{product_endpoint}}/submit/url/scan-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"{{product_endpoint}}",
+								"submit",
+								"url",
+								"scan-id"
+							]
+						},
+						"description": "Starting a new process by providing a URL to scan."
+					},
+					"response": []
+				},
+				{
+					"name": "Submit File",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"base64\":\"aGVsbG8gd29ybGQ=\",\n    \"filename\": \"file.txt\",\n   \"properties\": {\n        \"action\": 0,\n        \"includeHtml\": false,\n        \"developerPayload\": null,\n        \"sandbox\": false,\n        \"expiration\": 2880,\n        \"scanMethodAlgorithm\": 0,\n        \"customMetadata\": [],\n        \"author\": {\n            \"id\": null\n        },\n        \"course\": {\n            \"id\": null\n        },\n        \"assignment\": {\n            \"id\": null\n        },\n        \"institution\": {\n            \"id\": null\n        },\n        \"webhooks\": {\n            \"newResult\": null,\n            \"newResultHeaders\": null,\n            \"statusHeaders\": null,\n            \"status\": \"https://yoursite.com/webhook/{STATUS}\"\n        },\n        \"filters\": {\n            \"identicalEnabled\": true,\n            \"minorChangesEnabled\": true,\n            \"relatedMeaningEnabled\": true,\n            \"minCopiedWords\": null,\n            \"safeSearch\": false,\n            \"domains\": [],\n            \"domainsMode\": \"1\",\n            \"allowSameDomain\": false\n        },\n        \"scanning\": {\n            \"internet\": true,\n            \"exclude\": {\n                \"idPattern\": null\n            },\n            \"include\": {\n                \"includeIdPattern\": null\n            },\n            \"repositories\": [],\n            \"copyleaksDb\": null,\n            \"crossLanguages\": {\n                \"languages\": [\n                ]\n            }\n        },\n        \"indexing\": {\n            \"repositories\": [],\n            \"copyleaksDb\": false\n        },\n        \"exclude\": {\n            \"quotes\": false,\n            \"citations\": false,\n            \"references\": false,\n            \"tableOfContents\": false,\n            \"titles\": false,\n            \"htmlTemplate\": false,\n            \"documentTemplateIds\": [],\n            \"code\": {\n                \"comments\": false\n            }\n        },\n        \"pdf\": {\n            \"create\": true,\n            \"title\": null,\n            // \"colors\": {\n            //     \"titles\": \"#0B163E\",\n            //     \"identical\": \"#FE5758\",\n            //     \"minorChanges\": \"#FFB1B1\",\n            //     \"relatedMeaning\": \"#FDD0A3\",\n            //     \"aiDetection\": \"#F8EAFF\",\n            //     \"writingFeedback\": \"#FFCB8E\"\n            // },\n            \"largeLogo\": null,\n            \"rtl\": false,\n            // \"version\": 3,\n            \"reportVersion\": \"latest\"\n        },\n        \"displayLanguage\":\"en\",\n        // \"scanTimeZone\": \"America/New_York\",\n        \"sensitivityLevel\": 3,\n        \"cheatDetection\": false,\n        \"aiGeneratedText\": {\n            \"detect\": false,\n            \"sensitivity\": 2,\n             \"explain\": {\n                \"enable\": false\n            }\n        },\n        \"sensitiveDataProtection\": {\n            \"credentials\": false,\n            \"url\": false,\n            \"creditCard\": false,\n            \"emailAddress\": false,\n            \"driversLicense\": false,\n            \"phoneNumber\": false,\n            \"network\": false,\n            \"passport\": false\n        },\n        \"writingFeedback\": {\n            \"enable\": false,\n            \"score\": {\n                \"wordChoiceScoreWeight\": 1,\n                \"sentenceStructureScoreWeight\": 1,\n                \"grammarScoreWeight\": 1,\n                \"mechanicsScoreWeight\": 1\n            }\n        },\n        \"overview\":{\n            \"enable\":false,\n            \"ignoreAIDetection\": false,\n            \"ignorePlagiarismDetection\": false,\n            \"ignoreAuthorData\": false,\n            \"ignoreWritingFeedback\": false\n        },\n        \"aiSourceMatch\": {\n            \"enable\": false\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v3/{{product_endpoint}}/submit/file/scan-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"{{product_endpoint}}",
+								"submit",
+								"file",
+								"scan-id"
+							]
+						},
+						"description": "Starting a new process by providing a file to scan."
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Ocr",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"base64\":\"aGVsbG8gd29ybGQ=\",\n    \"filename\": \"image.jpg\",\n    \"langCode\": \"en\",\n   \"properties\": {\n        \"action\": 0,\n        \"includeHtml\": false,\n        \"developerPayload\": null,\n        \"sandbox\": false,\n        \"expiration\": 2880,\n        \"scanMethodAlgorithm\": 0,\n        \"customMetadata\": [],\n        \"author\": {\n            \"id\": null\n        },\n        \"course\": {\n            \"id\": null\n        },\n        \"assignment\": {\n            \"id\": null\n        },\n        \"institution\": {\n            \"id\": null\n        },\n        \"webhooks\": {\n            \"newResult\": null,\n            \"newResultHeaders\": null,\n            \"statusHeaders\": null,\n            \"status\": \"https://yoursite.com/webhook/{STATUS}\"\n        },\n        \"filters\": {\n            \"identicalEnabled\": true,\n            \"minorChangesEnabled\": true,\n            \"relatedMeaningEnabled\": true,\n            \"minCopiedWords\": null,\n            \"safeSearch\": false,\n            \"domains\": [],\n            \"domainsMode\": \"1\",\n            \"allowSameDomain\": false\n        },\n        \"scanning\": {\n            \"internet\": true,\n            \"exclude\": {\n                \"idPattern\": null\n            },\n            \"include\": {\n                \"includeIdPattern\": null\n            },\n            \"repositories\": [],\n            \"copyleaksDb\": null,\n            \"crossLanguages\": {\n                \"languages\": [\n                ]\n            }\n        },\n        \"indexing\": {\n            \"repositories\": [],\n            \"copyleaksDb\": false\n        },\n        \"exclude\": {\n            \"quotes\": false,\n            \"citations\": false,\n            \"references\": false,\n            \"tableOfContents\": false,\n            \"titles\": false,\n            \"htmlTemplate\": false,\n            \"documentTemplateIds\": [],\n            \"code\": {\n                \"comments\": false\n            }\n        },\n        \"pdf\": {\n            \"create\": true,\n            \"title\": null,\n            // \"colors\": {\n            //     \"titles\": \"#0B163E\",\n            //     \"identical\": \"#FE5758\",\n            //     \"minorChanges\": \"#FFB1B1\",\n            //     \"relatedMeaning\": \"#FDD0A3\",\n            //     \"aiDetection\": \"#F8EAFF\",\n            //     \"writingFeedback\": \"#FFCB8E\"\n            // },\n            \"largeLogo\": null,\n            \"rtl\": false,\n            // \"version\": 3,\n            \"reportVersion\": \"latest\"\n        },\n        \"displayLanguage\":\"en\",\n        // \"scanTimeZone\": \"America/New_York\",\n        \"sensitivityLevel\": 3,\n        \"cheatDetection\": false,\n        \"aiGeneratedText\": {\n            \"detect\": false,\n            \"sensitivity\": 2,\n             \"explain\": {\n                \"enable\": false\n            }\n        },\n        \"sensitiveDataProtection\": {\n            \"credentials\": false,\n            \"url\": false,\n            \"creditCard\": false,\n            \"emailAddress\": false,\n            \"driversLicense\": false,\n            \"phoneNumber\": false,\n            \"network\": false,\n            \"passport\": false\n        },\n        \"writingFeedback\": {\n            \"enable\": false,\n            \"score\": {\n                \"wordChoiceScoreWeight\": 1,\n                \"sentenceStructureScoreWeight\": 1,\n                \"grammarScoreWeight\": 1,\n                \"mechanicsScoreWeight\": 1\n            }\n        },\n        \"overview\":{\n            \"enable\":false,\n            \"ignoreAIDetection\": false,\n            \"ignorePlagiarismDetection\": false,\n            \"ignoreAuthorData\": false,\n            \"ignoreWritingFeedback\": false\n        },\n        \"aiSourceMatch\": {\n            \"enable\": false\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v3/{{product_endpoint}}/submit/ocr/scan-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"{{product_endpoint}}",
+								"submit",
+								"ocr",
+								"scan-id"
+							]
+						},
+						"description": "Starting a new process by providing an image file with text to scan."
+					},
+					"response": []
+				},
+				{
+					"name": "Start",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"trigger\": [\"Your-scan-id-1\", \"Your-scan-id-2\" ],\n\t\"errorHandling\": 0\n}\n"
+						},
+						"url": {
+							"raw": "{{base_url}}/v3/{{product_endpoint}}/start",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"{{product_endpoint}}",
+								"start"
+							]
+						},
+						"description": "Start scanning a list of creditsChecked scans."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Scans",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"scans\": [\r\n        {\"id\": \"Your-scan-id-1\"},\r\n        {\"id\": \"Your-scan-id-2\"}\r\n    ],\r\n    \"purge\": true,\r\n    \"completionWebhook\": \"https://yoursite.com/webhook/deleted\",\r\n    \"headers\": []\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v3.1/{{product_endpoint}}/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3.1",
+								"{{product_endpoint}}",
+								"delete"
+							]
+						},
+						"description": "Delete the specific scans from the server, after getting the scan results."
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Webhook",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v3/{{product_endpoint}}/scan-id/webhooks/resend",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"{{product_endpoint}}",
+								"scan-id",
+								"webhooks",
+								"resend"
+							]
+						},
+						"description": "Resend webhooks for existing scans."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Credit Balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "api-key",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v3/{{product_endpoint}}/credits",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"{{product_endpoint}}",
+								"credits"
+							]
+						},
+						"description": "Get your credit balance."
+					},
+					"response": []
+				},
+				{
+					"name": "Usages History",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "copyleaks-internal",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/v3/{{product_endpoint}}/usages/history?start=01-03-2024&end=01-06-2024",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"{{product_endpoint}}",
+								"usages",
+								"history"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "01-03-2024"
+								},
+								{
+									"key": "end",
+									"value": "01-06-2024"
+								}
+							]
+						},
+						"description": "Get your usage history between two dates."
+					},
+					"response": []
+				},
+				{
+					"name": "Export",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"completionWebhook\": \"https://eojvotvf40mxuug.m.pipedream.net\",\r\n    \"completionWebhookHeaders\": [],\r\n    \"maxRetries\": 3,\r\n    \"developerPayload\": \"\",\r\n    \"results\": [\r\n        {\r\n            \"id\": \"my-result-id\",\r\n            \"verb\": \"POST\",\r\n            \"headers\": [\r\n                [ \"header-key\", \"header-value\"]\r\n            ],\r\n            \"endpoint\": \"https://yourserver.com/export/export-id/results/my-result-id\"\r\n        }\r\n    ],\r\n    \"pdfReport\": {\r\n        \"verb\": \"POST\",\r\n        \"headers\": [\r\n            [ \"header-key\", \"header-value\"]\r\n        ],\r\n        \"endpoint\": \"https://yourserver.com/export/export-id/pdf-report\"\r\n    },\r\n    \"aiDetection\": {\r\n        \"verb\": \"POST\",\r\n        \"headers\": [\r\n            [ \"header-key\", \"header-value\"]\r\n        ],\r\n        \"endpoint\": \"https://yourserver.com/export/export-id/ai-detection\"\r\n    },\r\n    \"writingFeedback\": {\r\n        \"verb\": \"POST\",\r\n        \"headers\": [\r\n            [ \"header-key\", \"header-value\"]\r\n        ],\r\n        \"endpoint\": \"https://yourserver.com/export/export-id/writing-feedback\"\r\n    },\r\n    \"overview\":{\r\n        \"verb\": \"POST\",\r\n        \"headers\": [\r\n            [ \"header-key\", \"header-value\"]\r\n        ],\r\n        \"endpoint\": \"https://yourserver.com/export/export-id/overview\"\r\n    },\r\n    \"crawledVersion\": {\r\n        \"verb\": \"POST\",\r\n        \"headers\": [\r\n            [ \"header-key\", \"header-value\"]\r\n        ],\r\n        \"endpoint\": \"https://yourserver.com/export/export-id/crawled-version\"\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v3/downloads/scan-id/export/export-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"downloads",
+								"scan-id",
+								"export",
+								"export-id"
+							]
+						},
+						"description": "Export the full raw scan information and push it to your servers."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Private Cloud Hub Information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v3/repositories/repository/repository-id/info",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"repositories",
+								"repository",
+								"repository-id",
+								"info"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get Private Cloud Hub information such as credit consumption, metadata values and current status. A “Super Admin” or “Admin” role is required."
+					},
+					"response": []
+				},
+				{
+					"name": "Supported File Types",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/v3/miscellaneous/supported-file-types",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"miscellaneous",
+								"supported-file-types"
+							]
+						},
+						"description": "Get a list of the supported file types."
+					},
+					"response": []
+				},
+				{
+					"name": "Supported OCR Languages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v3/miscellaneous/ocr-languages-list",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"miscellaneous",
+								"ocr-languages-list"
+							]
+						},
+						"description": "Get a list of the supported languages for OCR"
+					},
+					"response": []
+				},
+				{
+					"name": "Supported Cross Languages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v3/miscellaneous/allowed-cross-languages",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v3",
+								"miscellaneous",
+								"allowed-cross-languages"
+							]
+						},
+						"description": "Cross-language plagiarism detection identifies content that has been translated from one language to another, helping catch plagiarism attempts where text is copied and translated to avoid detection.\n\nThis document provides information about the languages supported by Copyleaks for cross-language scans. The language codes are provided in the `ISO-639-1` standard. [https://api.copyleaks.com/v3/miscellaneous/allowed-cross-languages](https://api.copyleaks.com/v3/miscellaneous/allowed-cross-languages)"
+					},
+					"response": []
+				}
+			],
+			"description": "The Copyleaks scans API allows you to integrate your institution's platform, learning management system or any other e-learning solution with Copyleaks plagiarism detection products."
+		},
+		{
+			"name": "AI Detector",
+			"item": [
+				{
+					"name": "Submit Natural Language",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"Copyleaks is a plagiarism detection and content authentication platform designed for educators, businesses, and content creators. Using advanced AI and machine learning, it scans text for similarities across billions of online sources, academic databases, and internal content repositories. Copyleaks supports multiple languages and file types, offering detailed originality reports and integration with tools like LMS platforms, Microsoft Word, and APIs. It’s widely used to ensure content integrity, prevent cheating, and protect intellectual property.\",\r\n    \"sandbox\": false,\r\n    \"language\": \"en\",\r\n    \"explain\": true,\r\n    \"sensitivity\": 2\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v2/writer-detector/scan-id/check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v2",
+								"writer-detector",
+								"scan-id",
+								"check"
+							]
+						},
+						"description": "Endpoint for checking text with AI Content Detection."
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Source Code",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"print(\\\"This is a sample text meant to demonstrate a long string for testing purposes. The quick brown fox jumps over the lazy dog multiple times while the sun sets in the west. As the stars emerge one by one, the world continues to turn with stories told and untold across the vast expanse of time and space.\\\")\",\r\n    \"filename\": \"test.py\",\r\n    \"sandbox\": false\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v2/writer-detector/source-code/scan-id/check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v2",
+								"writer-detector",
+								"source-code",
+								"scan-id",
+								"check"
+							]
+						},
+						"description": "Endpoint for checking source code with AI Content Detection."
+					},
+					"response": []
+				},
+				{
+					"name": "Detect Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sandbox\": false,\r\n    \"model\": \"ai-image-1-ultra\",\r\n    \"filename\": \"test-image.png\",\r\n    \"base64\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJ...\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/ai-image-detector/scan-id/check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"ai-image-detector",
+								"scan-id",
+								"check"
+							]
+						},
+						"description": "The Copyleaks AI Image Detection API provides advanced capabilities to detect whether an image is AI-generated or partially AI-generated. This API uses sophisticated AI models to analyze images and produce a mask that overlays the submitted image, indicating which parts are AI-generated and which are authentic."
+					},
+					"response": []
+				}
+			],
+			"description": "Methods for analyzing text patterns to detect AI content using a single HTTP call."
+		},
+		{
+			"name": "Writing Assistant",
+			"item": [
+				{
+					"name": "Submit Text",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\":\"Copyleaks is a online plagarism detector that helps schools, business and content creators to make sure thier work is orginal. It scans textes from internet and databasis to find similerities. The tool is fast, accurate and supports multipal languages. However, some times it gives false possitives, so users should double check results. Overall, its a usefull platform for mantaining content integrity.\",\r\n    \"sandbox\":false,\r\n    \"score\": {\r\n        \"WordChoiceScoreWeight\": 1,\r\n        \"SentenceStructureScoreWeight\": 1,\r\n        \"GrammarScoreWeight\": 1,\r\n        \"MechanicsScoreWeight\": 1\r\n    },\r\n    \"language\": \"en\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/writing-feedback/{scanId}/check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"writing-feedback",
+								"{scanId}",
+								"check"
+							]
+						},
+						"description": "Endpoint for generating grammar, spelling, and sentence corrections for a given text."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Correction Types",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/writing-feedback/correction-types/en",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"writing-feedback",
+								"correction-types",
+								"en"
+							]
+						},
+						"description": "Get a list of correction types supported within the Writing Assistant API."
+					},
+					"response": []
+				}
+			],
+			"description": "Methods providing constructive critiques and instantaneous enhancements to your textual content."
+		},
+		{
+			"name": "Text Moderation",
+			"item": [
+				{
+					"name": "Submit Text",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\":\"Copyleaks is a damn useful tool when you're tired of people copying your shit and posting it like it's theirs. It doesn't just catch that crap — it can also flag stuff that’s offensive or even sexually suggestive garbage you don’t want in your public content. Platforms are flooded with toxic nonsense and hate these days, and Copyleaks helps clean that up before it turns into a PR nightmare. Whether it's racist rants, plagiarism, or just some jerk spewing sexist crap, this tool can spot it.\",\r\n    \"sandbox\":false,\r\n    \"language\": \"en\",\r\n    \"labels\": [\r\n        { \"id\": \"adult-v1\" },\r\n        { \"id\": \"toxic-v1\" },\r\n        { \"id\": \"violent-v1\" },\r\n        { \"id\": \"profanity-v1\" },\r\n        { \"id\": \"self-harm-v1\" },\r\n        { \"id\": \"harassment-v1\" },\r\n        { \"id\": \"hate-speech-v1\" },\r\n        { \"id\": \"drugs-v1\" },\r\n        { \"id\": \"firearms-v1\" },\r\n        { \"id\": \"cybersecurity-v1\" }\r\n    ]\r\n\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/text-moderation/scan-id/check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"text-moderation",
+								"scan-id",
+								"check"
+							]
+						},
+						"description": "Starting a new process by providing a URL to scan."
+					},
+					"response": []
+				}
+			],
+			"description": "Instantly flag hateful, explicit, toxic, or otherwise risky content in any text."
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://api.copyleaks.com",
+			"type": "string"
+		},
+		{
+			"key": "id_base_url",
+			"value": "https://id.copyleaks.com",
+			"type": "string"
+		},
+		{
+			"key": "product_endpoint",
+			"value": "scans",
+			"type": "string"
+		},
+		{
+			"key": "id_base_url",
+			"value": "https://id.copyleaks.eu",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "base_url",
+			"value": "https://api.copyleaks.eu/",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "email",
+			"value": "your@email.address",
+			"type": "string"
+		},
+		{
+			"key": "key",
+			"value": "00000000-0000-0000-0000-000000000000",
+			"type": "string"
+		}
+	]
+}
