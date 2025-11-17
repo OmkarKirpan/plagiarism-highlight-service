@@ -1,0 +1,22 @@
+{
+  "name": "plagiarism-highlight-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Fastify microservice for Copyleaks plagiarism scanning with highlights",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "NODE_ENV=development node --watch src/server.js",
+    "lint": "biome check ."
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "fastify": "^4.27.2",
+    "pino": "^9.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "pino-pretty": "^11.0.0"
+  }
+}
