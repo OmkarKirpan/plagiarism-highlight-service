@@ -1,5 +1,5 @@
-const CopyleaksClient = require("../../../../src/copyleaks-client");
-const PlagiarismScanner = require("../../../../src/plagiarism-scanner");
+const CopyleaksClient = require("./copyleaks-client");
+const PlagiarismScanner = require("./plagiarism-scanner");
 const config = require("../config");
 
 const copyleaksClient = new CopyleaksClient(config.copyleaks.email, config.copyleaks.apiKey);

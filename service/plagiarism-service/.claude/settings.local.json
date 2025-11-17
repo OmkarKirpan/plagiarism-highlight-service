@@ -20,7 +20,11 @@
       "Bash(curl:*)",
       "Read(//tmp/**)",
       "Bash(cat:*)",
-      "Read(//Users/omkarkirpan/hurix/dictera/copyleaks/**)"
+      "Read(//Users/omkarkirpan/hurix/dictera/copyleaks/**)",
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(npm run lint)",
+      "Bash(npx biome check --write .)"
     ],
     "deny": [],
     "ask": []

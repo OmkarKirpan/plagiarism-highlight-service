@@ -1,4 +1,4 @@
-const TextHighlighter = require("../../../../src/text-highlighter");
+const TextHighlighter = require("../utils/text-highlighter");
 
 const textHighlighter = new TextHighlighter();
 
