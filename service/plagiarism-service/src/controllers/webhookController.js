@@ -67,9 +67,7 @@ exports.handleStatus = asyncHandler(async (request, reply) => {
       },
     });
 
-    const resultIds = (payload.results?.internet || []).map(
-      (result) => result.id,
-    );
+    const resultIds = (payload.results?.internet || []).map((result) => result.id);
     if (resultIds.length && !record.exportStarted) {
       try {
         scanStore.markExportStarted(scanId);

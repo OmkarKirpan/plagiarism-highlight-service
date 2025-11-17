@@ -16,27 +16,20 @@ exports.submitScan = asyncHandler(async (request, reply) => {
   const { text, options } = request.body || {};
 
   if (!text || typeof text !== "string" || text.trim().length === 0) {
-    return reply
-      .code(400)
-      .send({ error: "Text is required and must be a non-empty string." });
+    return reply.code(400).send({ error: "Text is required and must be a non-empty string." });
   }
 
   const record = scanStore.createScanRecord(text, options);
   logger.info(`Submitting scan ${record.scanId}`);
 
   try {
-    await plagiarismScanner.submitTextScan(
-      record.scanId,
-      text,
-      buildScanOptions(options),
-    );
+    await plagiarismScanner.submitTextScan(record.scanId, text, buildScanOptions(options));
     scanStore.updateStatus(record.scanId, "pending");
 
     return reply.code(202).send({
       scanId: record.scanId,
       status: "pending",
-      message:
-        "Scan submitted successfully. Await webhook callbacks for completion.",
+      message: "Scan submitted successfully. Await webhook callbacks for completion.",
     });
   } catch (error) {
     logger.error("Scan submission failed", {

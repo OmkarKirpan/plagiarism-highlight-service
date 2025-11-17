@@ -1,13 +1,25 @@
 const Fastify = require("fastify");
 const config = require("./config");
-const logger = require("./utils/logger");
 const plagiarismRoutes = require("./routes/plagiarismRoutes");
 const webhookRoutes = require("./routes/webhookRoutes");
 const { notFoundHandler, errorHandler } = require("./middlewares/errorHandler");
 
 function buildServer() {
+  const isProduction = process.env.NODE_ENV === "production";
+
   const app = Fastify({
-    logger,
+    logger: {
+      level: process.env.LOG_LEVEL || "info",
+      transport: isProduction
+        ? undefined
+        : {
+            target: "pino-pretty",
+            options: {
+              colorize: true,
+              translateTime: "SYS:standard",
+            },
+          },
+    },
     bodyLimit: 25 * 1024 * 1024,
   });
 

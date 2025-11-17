@@ -2,8 +2,7 @@ const path = require("node:path");
 const dotenv = require("dotenv");
 
 dotenv.config({
-  path:
-    process.env.PLAGIARISM_SERVICE_ENV || path.resolve(process.cwd(), ".env"),
+  path: process.env.PLAGIARISM_SERVICE_ENV || path.resolve(process.cwd(), ".env"),
 });
 
 function ensureEnv(value, key) {
@@ -15,10 +14,7 @@ function ensureEnv(value, key) {
 
 const config = {
   env: process.env.NODE_ENV || "development",
-  port: Number.parseInt(
-    process.env.PLAGIARISM_SERVICE_PORT || process.env.PORT || "4000",
-    10,
-  ),
+  port: Number.parseInt(process.env.PLAGIARISM_SERVICE_PORT || process.env.PORT || "4000", 10),
   copyleaks: {
     email: ensureEnv(process.env.COPYLEAKS_EMAIL, "COPYLEAKS_EMAIL"),
     apiKey: ensureEnv(process.env.COPYLEAKS_API_KEY, "COPYLEAKS_API_KEY"),

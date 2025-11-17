@@ -48,9 +48,7 @@ function resolveBaseText(record) {
 function generateHighlightPayload(record) {
   const text = resolveBaseText(record);
   if (!text) {
-    throw new Error(
-      "No text available for highlighting. Wait for crawled payload.",
-    );
+    throw new Error("No text available for highlighting. Wait for crawled payload.");
   }
 
   const matches = extractMatches(record?.exported?.results);

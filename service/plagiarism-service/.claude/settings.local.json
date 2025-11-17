@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(context7 resolve-library-id:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "WebSearch",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npm install:*)",
+      "Bash(npx @biomejs/biome:*)",
+      "Bash(npm view:*)",
+      "Bash(npm info:*)",
+      "Bash(node --version:*)",
+      "Bash(python3:*)",
+      "Bash(timeout 5 npm run dev)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
